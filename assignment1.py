@@ -23,7 +23,10 @@ y = data['trips']
 model = LinearGAM(s(0) + s(1) + s(2))
 modelFit = model.gridsearch(x.values, y)
 
-pred = modelFit.predict(new_data)
+if isinstance(model, LinearGAM):
+    pred = modelFit.predict(new_data)
+else:
+    raise ValueError("Model is not a LinearGAM, please check.")
 
 print(pred[-20:])
 
