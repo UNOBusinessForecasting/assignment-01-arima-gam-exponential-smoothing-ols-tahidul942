@@ -21,14 +21,18 @@ test = pd.read_csv(test_url)
 
 train_trips = train['trips']
 
-
 model = ARIMA(train_trips, order=(5, 1, 0))
 modelFit = model.fit()
 
-
 pred = modelFit.forecast(steps=744)
-
 
 pred = np.array(pred)
 
+if len(pred) != 744:
+    print(f"Warning: Expected 744 predictions but got {len(pred)}")
+
+print("First 10 Forecasted Trips for January:")
+print(pred[:10])
+
+print("\nARIMA Model Summary:")
 print(modelFit.summary())
