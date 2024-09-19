@@ -7,32 +7,23 @@ Original file is located at
     https://colab.research.google.com/drive/1dMthm9N9uCRtHWPYs84V8vsyq9CLuGfb
 """
 
+!pip install pygam
+
+from pygam import LinearGAM, s,f,l
 import pandas as pd
-from statsmodels.tsa.arima.model import ARIMA
-import numpy as np
 
-train_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_train.csv'
-test_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_test.csv'
+data = pd.read_csv("https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_train.csv")
+new_data = pd.read_csv("https://raw.githubusercontent.com/UNOBusinessForecasting/assignment-01-arima-gam-exponential-smoothing-ols-davis011235/refs/heads/main/assignment_data_test.csv")
+new_data = new_data[['month', 'day', 'hour']]
 
-train = pd.read_csv(train_url)
-test = pd.read_csv(test_url)
+data.head()
+x= data[[ 'month', 'day','hour']]
+y = data['trips']
 
-train_trips = np.log(train['trips'])
+model = LinearGAM(s(0) + s(1) + s(2))
+modelFit = model.gridsearch(x.values,y)
 
-model = ARIMA(train_trips, order=(3, 1, 2))
-modelFit = model.fit()
+pred = modelFit.predict(new_data)
 
-pred_log = modelFit.forecast(steps=744)
+print(pred[-20:])
 
-pred = np.exp(pred_log)
-
-pred = np.array(pred)
-
-if len(pred) != 744:
-    print(f"Warning: Expected 744 predictions but got {len(pred)}")
-
-print("First 10 Forecasted Trips for January:")
-print(pred[:10])
-
-print("\nARIMA Model Summary:")
-print(modelFit.summary())
