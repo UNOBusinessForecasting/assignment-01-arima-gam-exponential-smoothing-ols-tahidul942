@@ -11,20 +11,20 @@ import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 import numpy as np
 
-
 train_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_train.csv'
 test_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_test.csv'
 
 train = pd.read_csv(train_url)
 test = pd.read_csv(test_url)
 
+train_trips = np.log(train['trips'])
 
-train_trips = train['trips']
-
-model = ARIMA(train_trips, order=(5, 1, 0))
+model = ARIMA(train_trips, order=(3, 1, 2))
 modelFit = model.fit()
 
-pred = modelFit.forecast(steps=744)
+pred_log = modelFit.forecast(steps=744)
+
+pred = np.exp(pred_log)
 
 pred = np.array(pred)
 
