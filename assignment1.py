@@ -7,31 +7,23 @@ Original file is located at
     https://colab.research.google.com/drive/1dMthm9N9uCRtHWPYs84V8vsyq9CLuGfb
 """
 
-import pandas as pd
-import numpy as np
 from pygam import LinearGAM, s
-import matplotlib.pyplot as plt
-import pickle
+import pandas as pd
 
-train_url = "https://github.com/dustywhite7/econ8310-assignment1/raw/main/assignment_data_train.csv"
-train_data = pd.read_csv(train_url)
+train_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_train.csv'
+test_url = 'https://raw.githubusercontent.com/UNOBusinessForecasting/assignment-01-arima-gam-exponential-smoothing-ols-davis011235/refs/heads/main/assignment_data_test.csv'
 
-test_url = "https://github.com/dustywhite7/econ8310-assignment1/raw/main/assignment_data_test.csv"
-test_data = pd.read_csv(test_url)
+data = pd.read_csv(train_url)
+new_data = pd.read_csv(test_url)
+new_data = new_data[['month', 'day', 'hour']]
 
-print(train_data)
+x = data[['month', 'day', 'hour']]
+y = data['trips']
 
-X_train = train_data[['year', 'month', 'day', 'hour']]
-y_train = train_data['trips']
+model = LinearGAM(s(0) + s(1) + s(2))
+modelFit = model.gridsearch(x.values, y)
 
-X_test = test_data[['year', 'month', 'day', 'hour']]
+pred = modelFit.predict(new_data)
 
-model = LinearGAM(s(0) + s(1) + s(2) + s(3))
-modelFit = model.fit(X_train, y_train)
-
-pred = modelFit.predict(X_test)
-
-test_data['predicted_trips'] = pred
-
-print(test_data[['Timestamp', 'predicted_trips']])
+print(pred[-20:])
 
