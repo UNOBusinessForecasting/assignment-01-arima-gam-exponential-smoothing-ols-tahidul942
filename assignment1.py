@@ -8,21 +8,30 @@ Original file is located at
 """
 
 import pandas as pd
-import statsmodels.api as sm
+from statsmodels.tsa.arima.model import ARIMA
+
+
 train_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_train.csv'
 test_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_test.csv'
 
 train = pd.read_csv(train_url)
 test = pd.read_csv(test_url)
 
-x = train.drop(['trips', 'Timestamp'], axis = 1)
-y = train[['trips']]
 
-model = sm.OLS(endog = y, exog = x)
+train_trips = train['trips']
+
+
+model = ARIMA(train_trips, order=(5, 1, 0))
+
+
 modelFit = model.fit()
 
-x_test = test.drop(['Timestamp'], axis = 1)
 
-pred = modelFit.predict(x_test)
+pred = modelFit.forecast(steps=744)
+
+
+print("First 10 Forecasted Trips for January:")
+print(pred[:10])
+
 
 print(modelFit.summary())
