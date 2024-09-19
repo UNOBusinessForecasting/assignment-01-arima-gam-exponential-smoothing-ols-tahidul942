@@ -19,7 +19,7 @@ train_data = pd.read_csv(train_url)
 test_url = "https://github.com/dustywhite7/econ8310-assignment1/raw/main/assignment_data_test.csv"
 test_data = pd.read_csv(test_url)
 
-print(train_data.head())
+print(train_data)
 
 X_train = train_data[['year', 'month', 'day', 'hour']]
 y_train = train_data['trips']
@@ -33,5 +33,5 @@ pred = modelFit.predict(X_test)
 
 test_data['predicted_trips'] = pred
 
-print(test_data[['Timestamp', 'predicted_trips']].head())
+print(test_data[['Timestamp', 'predicted_trips']])
 
