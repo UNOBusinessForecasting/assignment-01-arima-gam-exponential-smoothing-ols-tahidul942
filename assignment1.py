@@ -12,7 +12,6 @@ import pandas as pd
 train_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_train.csv'
 test_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_test.csv'
 
-# No quotes around train_url and test_url variables
 train = pd.read_csv(train_url)
 test = pd.read_csv(test_url)
 
