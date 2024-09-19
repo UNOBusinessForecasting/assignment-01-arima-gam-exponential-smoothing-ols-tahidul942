@@ -10,7 +10,6 @@ Original file is located at
 import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 
-
 train_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_train.csv'
 test_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_test.csv'
 
@@ -33,5 +32,5 @@ pred = modelFit.forecast(steps=744)
 print("First 10 Forecasted Trips for January:")
 print(pred[:10])
 
-
+print("\nModel Summary:")
 print(modelFit.summary())
