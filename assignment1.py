@@ -8,15 +8,12 @@ Original file is located at
 """
 
 import pandas as pd
-
+import statsmodels.api as sm
 train_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_train.csv'
 test_url = 'https://raw.githubusercontent.com/dustywhite7/econ8310-assignment1/main/assignment_data_test.csv'
 
 train = pd.read_csv(train_url)
 test = pd.read_csv(test_url)
-
-import statsmodels.api as sm
-
 
 x = train.drop(['trips', 'Timestamp'], axis = 1)
 y = train[['trips']]
